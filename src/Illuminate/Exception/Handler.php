@@ -2,7 +2,7 @@
 
 namespace {
 	if(!interface_exists('\Throwable')) {
-		class Throwable extends \Exception { }
+		interface Throwable { }
 	}
 }
 
