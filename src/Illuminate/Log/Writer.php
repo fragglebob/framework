@@ -87,7 +87,7 @@ class Writer {
 	{
 		$level = $this->parseLevel($level);
 
-		$this->monolog->pushHandler($handler = new StreamHandler($path, $level, true, 664));
+		$this->monolog->pushHandler($handler = new StreamHandler($path, $level, true, 0664));
 
 		$handler->setFormatter($this->getDefaultFormatter());
 	}
@@ -104,7 +104,7 @@ class Writer {
 	{
 		$level = $this->parseLevel($level);
 
-		$this->monolog->pushHandler($handler = new RotatingFileHandler($path, $days, $level, true, 664));
+		$this->monolog->pushHandler($handler = new RotatingFileHandler($path, $days, $level, true, 0664));
 
 		$handler->setFormatter($this->getDefaultFormatter());
 	}
