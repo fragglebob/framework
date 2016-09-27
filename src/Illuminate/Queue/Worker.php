@@ -199,7 +199,7 @@ class Worker {
 
 		try
 		{
-			$this->events->fire('illuminate.queue.starting', ['name' => $job->getName()]);
+			$this->events->fire('illuminate.queue.starting', [$job->getName()]);
 			
 			// First we will fire off the job. Once it is done we will see if it will
 			// be auto-deleted after processing and if so we will go ahead and run
@@ -208,7 +208,7 @@ class Worker {
 
 			if ($job->autoDelete()) $job->delete();
 
-			$this->events->fire('illuminate.queue.finished', ['name' => $job->getName()]);
+			$this->events->fire('illuminate.queue.finished', [$job->getName()]);
 
 			return ['job' => $job, 'failed' => false];
 		}
@@ -220,7 +220,7 @@ class Worker {
 			// time by another listener (or the same one). We will do that here.
 			if ( ! $job->isDeleted()) $job->release($delay);
 
-			$this->events->fire('illuminate.queue.finished', ['error' => $e, 'name' => $job->getName()]);
+			$this->events->fire('illuminate.queue.finished', [$job->getName(), $e]);
 
 			throw $e;
 		}

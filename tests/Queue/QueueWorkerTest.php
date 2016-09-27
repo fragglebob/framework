@@ -66,9 +66,10 @@ class QueueWorkerTest extends PHPUnit_Framework_TestCase {
 
 	public function testProcessFiresJobAndAutoDeletesIfTrue()
 	{
-		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'));
+		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'), null, new Illuminate\Events\Dispatcher());
 		$job = m::mock('Illuminate\Queue\Jobs\Job');
 		$job->shouldReceive('fire')->once();
+		$job->shouldReceive('getName')->andReturn('foo');
 		$job->shouldReceive('autoDelete')->once()->andReturn(true);
 		$job->shouldReceive('delete')->once();
 
@@ -78,14 +79,43 @@ class QueueWorkerTest extends PHPUnit_Framework_TestCase {
 
 	public function testProcessFiresJobAndDoesntCallDeleteIfJobDoesntAutoDelete()
 	{
-		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'));
+		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'), null, new Illuminate\Events\Dispatcher());
 		$job = m::mock('Illuminate\Queue\Jobs\Job');
 		$job->shouldReceive('fire')->once();
 		$job->shouldReceive('autoDelete')->once()->andReturn(false);
 		$job->shouldReceive('delete')->never();
+		$job->shouldReceive('getName')->andReturn('foo');
 
 		$worker->process('connection', $job, 0, 0);
 	}
+
+	public function testProcessFiresStartingAndFinishedEvent()
+	{
+		$called = 0;
+
+		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'), null, $event = new Illuminate\Events\Dispatcher());
+		$job = m::mock('Illuminate\Queue\Jobs\Job');
+
+		$job->shouldReceive('getName')->andReturn('foo');
+		$job->shouldReceive('fire')->once();
+		$job->shouldReceive('autoDelete')->once()->andReturn(false);
+		$job->shouldReceive('delete')->never();
+
+		$event->listen('illuminate.queue.starting', function($name) use (&$called) {
+			$this->assertEquals('foo', $name);
+			$called++;
+		});
+
+		$event->listen('illuminate.queue.finished', function($name) use (&$called) {
+			$this->assertEquals('foo', $name);
+			$called++;
+		});
+
+		$worker->process('connection', $job, 0, 0);
+
+		$this->assertEquals($called, 2);
+	}
+
 
 
 	/**
@@ -93,26 +123,58 @@ class QueueWorkerTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testJobIsReleasedWhenExceptionIsThrown()
 	{
-		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'));
+		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'), null, new Illuminate\Events\Dispatcher());
 		$job = m::mock('Illuminate\Queue\Jobs\Job');
 		$job->shouldReceive('fire')->once()->andReturnUsing(function() { throw new RuntimeException; });
 		$job->shouldReceive('isDeleted')->once()->andReturn(false);
 		$job->shouldReceive('release')->once()->with(5);
+		$job->shouldReceive('getName')->andReturn('foo');
 
 		$worker->process('connection', $job, 0, 5);
 	}
 
+	/**
+	 * @expectedException RuntimeException
+	 */
+	public function testProcessFiresStartingAndFinishedEventWhenExceptionIsThrown()
+	{
+		$called = 0;
+
+		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'), null, $event = new Illuminate\Events\Dispatcher());
+		$job = m::mock('Illuminate\Queue\Jobs\Job');
+		$job->shouldReceive('fire')->once()->andReturnUsing(function() { throw new RuntimeException; });
+		$job->shouldReceive('isDeleted')->once()->andReturn(false);
+		$job->shouldReceive('release')->once()->with(5);
+		$job->shouldReceive('getName')->andReturn('foo');
+
+		$event->listen('illuminate.queue.starting', function($name) use (&$called) {#
+			$this->assertEquals('foo', $name);
+			$called++;
+		});
+
+		$event->listen('illuminate.queue.finished', function($name, $error = null) use (&$called) {
+			$this->assertEquals('foo', $name);
+			$this->assertNotNull($error);
+			$this->assertInstanceOf(RuntimeException::class, $error);
+			$called++;
+		});
+
+		$worker->process('connection', $job, 0, 5);
+
+		$this->assertEquals($called, 2);
+	}
 
 	/**
 	 * @expectedException RuntimeException
 	 */
 	public function testJobIsNotReleasedWhenExceptionIsThrownButJobIsDeleted()
 	{
-		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'));
+		$worker = new Illuminate\Queue\Worker(m::mock('Illuminate\Queue\QueueManager'), null, new Illuminate\Events\Dispatcher());
 		$job = m::mock('Illuminate\Queue\Jobs\Job');
 		$job->shouldReceive('fire')->once()->andReturnUsing(function() { throw new RuntimeException; });
 		$job->shouldReceive('isDeleted')->once()->andReturn(true);
 		$job->shouldReceive('release')->never();
+		$job->shouldReceive('getName')->andReturn('foo');
 
 		$worker->process('connection', $job, 0, 5);
 	}
