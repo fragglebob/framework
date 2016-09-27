@@ -63,6 +63,28 @@ class QueueManager {
 	}
 
 	/**
+	 * Register an event listener for starting of a job in the daemon queue.
+	 *
+	 * @param  mixed  $callback
+	 * @return void
+	 */
+	public function starting($callback)
+	{
+		$this->app['events']->listen('illuminate.queue.starting', $callback);
+	}
+
+	/**
+	 * Register an event listener for the end of a job in daemon queue.
+	 *
+	 * @param  mixed  $callback
+	 * @return void
+	 */
+	public function finished($callback)
+	{
+		$this->app['events']->listen('illuminate.queue.finished', $callback);
+	}
+
+	/**
 	 * Determine if the driver is connected.
 	 *
 	 * @param  string  $name
