@@ -199,12 +199,16 @@ class Worker {
 
 		try
 		{
+			$this->events->fire('illuminate.queue.starting', ['name' => $job->getName()]);
+			
 			// First we will fire off the job. Once it is done we will see if it will
 			// be auto-deleted after processing and if so we will go ahead and run
 			// the delete method on the job. Otherwise we will just keep moving.
 			$job->fire();
 
 			if ($job->autoDelete()) $job->delete();
+
+			$this->events->fire('illuminate.queue.finished', ['name' => $job->getName()]);
 
 			return ['job' => $job, 'failed' => false];
 		}
@@ -215,6 +219,8 @@ class Worker {
 			// the queue so it is not lost. This will let is be retried at a later
 			// time by another listener (or the same one). We will do that here.
 			if ( ! $job->isDeleted()) $job->release($delay);
+
+			$this->events->fire('illuminate.queue.finished', ['error' => $e, 'name' => $job->getName()]);
 
 			throw $e;
 		}
