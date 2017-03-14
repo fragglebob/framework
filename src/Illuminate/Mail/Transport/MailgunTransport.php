@@ -3,7 +3,6 @@
 use Swift_Transport;
 use GuzzleHttp\Client;
 use Swift_Mime_Message;
-use GuzzleHttp\Post\PostFile;
 use Swift_Events_EventListener;
 
 class MailgunTransport implements Swift_Transport {
@@ -69,17 +68,28 @@ class MailgunTransport implements Swift_Transport {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function send(Swift_Mime_Message $message, &$failedRecipients = null)
-	{
-		$client = $this->getHttpClient();
+    public function send(Swift_Mime_Message $message, &$failedRecipients = null)
+    {
+        $client = $this->getHttpClient();
 
-		$client->post($this->url, ['auth' => ['api', $this->key],
-			'body' => [
-				'to' => $this->getTo($message),
-				'message' => new PostFile('message', (string) $message),
-			],
-		]);
-	}
+        $client->post($this->url, [
+            'auth' => [
+                'api',
+                $this->key
+            ],
+            'multipart' => [
+                [
+                    'name' => 'to',
+                    'contents' => $this->getTo($message),
+                ],
+                [
+                    'name' => 'message',
+                    'contents' => $message->toString(),
+                    'filename' => 'message.mime',
+                ],
+            ],
+        ]);
+    }
 
 	/**
 	 * {@inheritdoc}
