@@ -11,6 +11,14 @@
 |
 */
 
+if (!interface_exists('\\Throwable')) {
+    interface Throwable
+    {
+
+    }
+}
+
+
 error_reporting(-1);
 
 /*
