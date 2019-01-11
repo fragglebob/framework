@@ -1,6 +1,8 @@
 <?php namespace Illuminate\Support\Facades;
 
 /**
+ * @method static \Illuminate\View\View make(string $view, array $data = [], array $mergeData = [])
+ *
  * @see \Illuminate\View\Factory
  */
 class View extends Facade {

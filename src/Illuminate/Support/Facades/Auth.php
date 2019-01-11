@@ -1,6 +1,8 @@
 <?php namespace Illuminate\Support\Facades;
 
 /**
+ * @method static int|null id()
+ *
  * @see \Illuminate\Auth\AuthManager
  * @see \Illuminate\Auth\Guard
  */

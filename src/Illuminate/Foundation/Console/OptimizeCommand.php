@@ -1,9 +1,9 @@
 <?php namespace Illuminate\Foundation\Console;
 
+use ClassPreloader\Console\PreCompileCommand;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Composer;
 use Illuminate\View\Engines\CompilerEngine;
-use ClassPreloader\Command\PreCompileCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 class OptimizeCommand extends Command {
@@ -115,7 +115,7 @@ class OptimizeCommand extends Command {
 	 */
 	protected function registerClassPreloaderCommand()
 	{
-		$this->getApplication()->add(new PreCompileCommand);
+		$this->getApplication()->add(new PreCompileCommand());
 	}
 
 	/**
