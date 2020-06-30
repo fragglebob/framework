@@ -42,6 +42,10 @@ class QueueSqsQueueTest extends PHPUnit_Framework_TestCase {
 						     						'MD5OfBody' => md5($this->mockedPayload),
 						      						'ReceiptHandle' => $this->mockedReceiptHandle,
 						     						'MessageId' => $this->mockedMessageId))));
+
+        $this->mockedReceiveEmptyMessageResponseModel = new Model([
+            'Messages' => null,
+        ]);
 	}
 
 
@@ -55,6 +59,15 @@ class QueueSqsQueueTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('Illuminate\Queue\Jobs\SqsJob', $result);
 	}
 
+    public function testPopProperlyHandlesEmptyMessage()
+    {
+        $queue = $this->getMock('Illuminate\Queue\SqsQueue', array('getQueue'), array($this->sqs, $this->queueName, $this->account));
+        $queue->setContainer(m::mock('Illuminate\Container\Container'));
+        $queue->expects($this->once())->method('getQueue')->with($this->queueName)->will($this->returnValue($this->queueUrl));
+        $this->sqs->shouldReceive('receiveMessage')->once()->with(array('QueueUrl' => $this->queueUrl, 'AttributeNames' => array('ApproximateReceiveCount')))->andReturn($this->mockedReceiveEmptyMessageResponseModel);
+        $result = $queue->pop($this->queueName);
+        $this->assertNull($result);
+    }
 
 	public function testDelayedPushWithDateTimeProperlyPushesJobOntoSqs()
 	{
