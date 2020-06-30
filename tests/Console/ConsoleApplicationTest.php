@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class ConsoleApplicationTest extends PHPUnit_Framework_TestCase {
+class ConsoleApplicationTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -12,7 +12,7 @@ class ConsoleApplicationTest extends PHPUnit_Framework_TestCase {
 
 	public function testAddSetsLaravelInstance()
 	{
-		$app = $this->getMock('Illuminate\Console\Application', array('addToParent'));
+		$app = $this->getMockBuilder('Illuminate\Console\Application')->setMethods(array('addToParent'))->getMock();
 		$app->setLaravel('foo');
 		$command = m::mock('Illuminate\Console\Command');
 		$command->shouldReceive('setLaravel')->once()->with('foo');
@@ -25,7 +25,7 @@ class ConsoleApplicationTest extends PHPUnit_Framework_TestCase {
 
 	public function testLaravelNotSetOnSymfonyCommands()
 	{
-		$app = $this->getMock('Illuminate\Console\Application', array('addToParent'));
+		$app = $this->getMockBuilder('Illuminate\Console\Application')->setMethods(array('addToParent'))->getMock();
 		$app->setLaravel('foo');
 		$command = m::mock('Symfony\Component\Console\Command\Command');
 		$command->shouldReceive('setLaravel')->never();
@@ -38,7 +38,7 @@ class ConsoleApplicationTest extends PHPUnit_Framework_TestCase {
 
 	public function testResolveAddsCommandViaApplicationResolution()
 	{
-		$app = $this->getMock('Illuminate\Console\Application', array('addToParent'));
+		$app = $this->getMockBuilder('Illuminate\Console\Application')->setMethods(array('addToParent'))->getMock();
 		$command = m::mock('Symfony\Component\Console\Command\Command');
 		$app->setLaravel(array('foo' => $command));
 		$app->expects($this->once())->method('addToParent')->with($this->equalTo($command))->will($this->returnValue($command));

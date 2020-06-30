@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Support\Collection;
 
-class SupportCollectionTest extends PHPUnit_Framework_TestCase {
+class SupportCollectionTest extends PHPUnit\Framework\TestCase {
 
 	public function testFirstReturnsFirstItemInCollection()
 	{
@@ -61,7 +61,7 @@ class SupportCollectionTest extends PHPUnit_Framework_TestCase {
 
 	public function testToJsonEncodesTheToArrayResult()
 	{
-		$c = $this->getMock('Illuminate\Support\Collection', array('toArray'));
+		$c = $this->getMockBuilder('Illuminate\Support\Collection')->setMethods(array('toArray'))->getMock();
 		$c->expects($this->once())->method('toArray')->will($this->returnValue('foo'));
 		$results = $c->toJson();
 
@@ -71,7 +71,7 @@ class SupportCollectionTest extends PHPUnit_Framework_TestCase {
 
 	public function testCastingToStringJsonEncodesTheToArrayResult()
 	{
-		$c = $this->getMock('Illuminate\Database\Eloquent\Collection', array('toArray'));
+		$c = $this->getMockBuilder('Illuminate\Database\Eloquent\Collection')->setMethods(array('toArray'))->getMock();
 		$c->expects($this->once())->method('toArray')->will($this->returnValue('foo'));
 
 		$this->assertEquals(json_encode('foo'), (string) $c);

@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class AuthEloquentUserProviderTest extends PHPUnit_Framework_TestCase {
+class AuthEloquentUserProviderTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -65,7 +65,7 @@ class AuthEloquentUserProviderTest extends PHPUnit_Framework_TestCase {
 	protected function getProviderMock()
 	{
 		$hasher = m::mock('Illuminate\Hashing\HasherInterface');
-		return $this->getMock('Illuminate\Auth\EloquentUserProvider', array('createModel'), array($hasher, 'foo'));
+		return $this->getMockBuilder('Illuminate\Auth\EloquentUserProvider')->setMethods(array('createModel'))->setConstructorArgs(array($hasher, 'foo'))->getMock();
 	}
 
 }

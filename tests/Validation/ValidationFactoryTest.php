@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Validation\Factory;
 
-class ValidationFactoryTest extends PHPUnit_Framework_TestCase {
+class ValidationFactoryTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{

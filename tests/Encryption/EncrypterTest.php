@@ -2,7 +2,7 @@
 
 use Illuminate\Encryption\Encrypter;
 
-class EncrypterTest extends PHPUnit_Framework_TestCase {
+class EncrypterTest extends PHPUnit\Framework\TestCase {
 
     public function testEncryption()
     {

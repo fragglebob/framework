@@ -2,7 +2,7 @@
 
 use Illuminate\Cache\ArrayStore;
 
-class CacheArrayStoreTest extends PHPUnit_Framework_TestCase {
+class CacheArrayStoreTest extends PHPUnit\Framework\TestCase {
 
 	public function testItemsCanBeSetAndRetrieved()
 	{
@@ -14,7 +14,7 @@ class CacheArrayStoreTest extends PHPUnit_Framework_TestCase {
 
 	public function testStoreItemForeverProperlyStoresInArray()
 	{
-		$mock = $this->getMock('Illuminate\Cache\ArrayStore', array('put'));
+		$mock = $this->getMockBuilder('Illuminate\Cache\ArrayStore')->setMethods(array('put'))->getMock();
 		$mock->expects($this->once())->method('put')->with($this->equalTo('foo'), $this->equalTo('bar'), $this->equalTo(0));
 		$mock->forever('foo', 'bar');
 	}

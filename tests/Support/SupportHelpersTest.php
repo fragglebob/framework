@@ -1,6 +1,6 @@
 <?php
 
-class SupportHelpersTest extends PHPUnit_Framework_TestCase {
+class SupportHelpersTest extends PHPUnit\Framework\TestCase {
 
 	public function testArrayBuild()
 	{

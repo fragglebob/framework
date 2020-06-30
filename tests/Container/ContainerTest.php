@@ -2,7 +2,7 @@
 
 use Illuminate\Container\Container;
 
-class ContainerContainerTest extends PHPUnit_Framework_TestCase {
+class ContainerContainerTest extends PHPUnit\Framework\TestCase {
 
 	public function testClosureResolution()
 	{
@@ -49,7 +49,7 @@ class ContainerContainerTest extends PHPUnit_Framework_TestCase {
 	public function testParametersCanOverrideDependencies()
 	{
 		$container = new Container;
-		$stub = new ContainerDependentStub($mock = $this->getMock('IContainerContractStub'));
+		$stub = new ContainerDependentStub($mock = $this->createMock('IContainerContractStub'));
 		$resolved = $container->make('ContainerNestedDependentStub', array($stub));
 		$this->assertInstanceOf('ContainerNestedDependentStub', $resolved);
 		$this->assertEquals($mock, $resolved->inner->impl);
@@ -323,7 +323,8 @@ class ContainerContainerTest extends PHPUnit_Framework_TestCase {
 
 	public function testInternalClassWithDefaultParameters()
 	{
-		$this->setExpectedException('Illuminate\Container\BindingResolutionException', 'Unresolvable dependency resolving [Parameter #0 [ <required> $first ]] in class ContainerMixedPrimitiveStub');
+		$this->expectException('Illuminate\Container\BindingResolutionException');
+        $this->expectExceptionMessage('Unresolvable dependency resolving [Parameter #0 [ <required> $first ]] in class ContainerMixedPrimitiveStub');
 		$container = new Container;
 		$parameters = array();
 		$container->make('ContainerMixedPrimitiveStub', $parameters);

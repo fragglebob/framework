@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Queue\Worker;
 
-class QueueWorkerTest extends PHPUnit_Framework_TestCase {
+class QueueWorkerTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -13,7 +13,7 @@ class QueueWorkerTest extends PHPUnit_Framework_TestCase {
 
 	public function testJobIsPoppedOffQueueAndProcessed()
 	{
-		$worker = $this->getMock('Illuminate\Queue\Worker', array('process'), array($manager = m::mock('Illuminate\Queue\QueueManager')));
+		$worker = $this->getMockBuilder('Illuminate\Queue\Worker')->setMethods(array('process'))->setConstructorArgs(array($manager = m::mock('Illuminate\Queue\QueueManager')))->getMock();
 		$manager->shouldReceive('connection')->once()->with('connection')->andReturn($connection = m::mock('StdClass'));
 		$manager->shouldReceive('getName')->andReturn('connection');
 		$job = m::mock('Illuminate\Queue\Jobs\Job');
@@ -26,7 +26,7 @@ class QueueWorkerTest extends PHPUnit_Framework_TestCase {
 
 	public function testJobIsPoppedOffFirstQueueInListAndProcessed()
 	{
-		$worker = $this->getMock('Illuminate\Queue\Worker', array('process'), array($manager = m::mock('Illuminate\Queue\QueueManager')));
+		$worker = $this->getMockBuilder('Illuminate\Queue\Worker')->setMethods(array('process'))->setConstructorArgs(array($manager = m::mock('Illuminate\Queue\QueueManager')))->getMock();
 		$manager->shouldReceive('connection')->once()->with('connection')->andReturn($connection = m::mock('StdClass'));
 		$manager->shouldReceive('getName')->andReturn('connection');
 		$job = m::mock('Illuminate\Queue\Jobs\Job');
@@ -40,7 +40,7 @@ class QueueWorkerTest extends PHPUnit_Framework_TestCase {
 
 	public function testWorkerSleepsIfNoJobIsPresentAndSleepIsEnabled()
 	{
-		$worker = $this->getMock('Illuminate\Queue\Worker', array('process', 'sleep'), array($manager = m::mock('Illuminate\Queue\QueueManager')));
+		$worker = $this->getMockBuilder('Illuminate\Queue\Worker')->setMethods(array('process', 'sleep'))->setConstructorArgs(array($manager = m::mock('Illuminate\Queue\QueueManager')))->getMock();
 		$manager->shouldReceive('connection')->once()->with('connection')->andReturn($connection = m::mock('StdClass'));
 		$connection->shouldReceive('pop')->once()->with('queue')->andReturn(null);
 		$worker->expects($this->never())->method('process');

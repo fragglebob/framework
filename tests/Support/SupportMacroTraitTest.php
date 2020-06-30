@@ -1,7 +1,7 @@
 <?php
 
 
-class SupportMacroTraitTest extends \PHPUnit_Framework_TestCase {
+class SupportMacroTraitTest extends PHPUnit\Framework\TestCase {
 
 	private $macroTrait;
 

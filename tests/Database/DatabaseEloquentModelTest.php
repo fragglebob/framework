@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
+class DatabaseEloquentModelTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -150,7 +150,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testUpdateProcess()
 	{
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes', 'updateTimestamps'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes', 'updateTimestamps'))->getMock();
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$query->shouldReceive('where')->once()->with('id', '=', 1);
 		$query->shouldReceive('update')->once()->with(array('name' => 'taylor'));
@@ -174,7 +174,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testUpdateProcessDoesntOverrideTimestamps()
 	{
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes'))->getMock();
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$query->shouldReceive('where')->once()->with('id', '=', 1);
 		$query->shouldReceive('update')->once()->with(array('created_at' => 'foo', 'updated_at' => 'bar'));
@@ -194,7 +194,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testSaveIsCancelledIfSavingEventReturnsFalse()
 	{
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes'))->getMock();
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$model->expects($this->once())->method('newQueryWithoutScopes')->will($this->returnValue($query));
 		$model->setEventDispatcher($events = m::mock('Illuminate\Events\Dispatcher'));
@@ -207,7 +207,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testUpdateIsCancelledIfUpdatingEventReturnsFalse()
 	{
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes'))->getMock();
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$model->expects($this->once())->method('newQueryWithoutScopes')->will($this->returnValue($query));
 		$model->setEventDispatcher($events = m::mock('Illuminate\Events\Dispatcher'));
@@ -222,7 +222,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testUpdateProcessWithoutTimestamps()
 	{
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes', 'updateTimestamps', 'fireModelEvent'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes', 'updateTimestamps', 'fireModelEvent'))->getMock();
 		$model->timestamps = false;
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$query->shouldReceive('where')->once()->with('id', '=', 1);
@@ -241,7 +241,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testUpdateUsesOldPrimaryKey()
 	{
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes', 'updateTimestamps'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes', 'updateTimestamps'))->getMock();
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$query->shouldReceive('where')->once()->with('id', '=', 1);
 		$query->shouldReceive('update')->once()->with(array('id' => 2, 'foo' => 'bar'));
@@ -265,7 +265,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testTimestampsAreReturnedAsObjects()
 	{
-		$model = $this->getMock('EloquentDateModelStub', array('getDateFormat'));
+		$model = $this->getMockBuilder('EloquentDateModelStub')->setMethods(array('getDateFormat'))->getMock();
 		$model->expects($this->any())->method('getDateFormat')->will($this->returnValue('Y-m-d'));
 		$model->setRawAttributes(array(
 			'created_at'	=> '2012-12-04',
@@ -279,7 +279,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testTimestampsAreReturnedAsObjectsFromPlainDatesAndTimestamps()
 	{
-		$model = $this->getMock('EloquentDateModelStub', array('getDateFormat'));
+		$model = $this->getMockBuilder('EloquentDateModelStub')->setMethods(array('getDateFormat'))->getMock();
 		$model->expects($this->any())->method('getDateFormat')->will($this->returnValue('Y-m-d H:i:s'));
 		$model->setRawAttributes(array(
 			'created_at'	=> '2012-12-04',
@@ -344,7 +344,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testInsertProcess()
 	{
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes', 'updateTimestamps'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes', 'updateTimestamps'))->getMock();
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$query->shouldReceive('insertGetId')->once()->with(array('name' => 'taylor'), 'id')->andReturn(1);
 		$model->expects($this->once())->method('newQueryWithoutScopes')->will($this->returnValue($query));
@@ -362,7 +362,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $model->id);
 		$this->assertTrue($model->exists);
 
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes', 'updateTimestamps'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes', 'updateTimestamps'))->getMock();
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$query->shouldReceive('insert')->once()->with(array('name' => 'taylor'));
 		$model->expects($this->once())->method('newQueryWithoutScopes')->will($this->returnValue($query));
@@ -385,7 +385,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testInsertIsCancelledIfCreatingEventReturnsFalse()
 	{
-		$model = $this->getMock('EloquentModelStub', array('newQueryWithoutScopes'));
+		$model = $this->getMockBuilder('EloquentModelStub')->setMethods(array('newQueryWithoutScopes'))->getMock();
 		$query = m::mock('Illuminate\Database\Eloquent\Builder');
 		$model->expects($this->once())->method('newQueryWithoutScopes')->will($this->returnValue($query));
 		$model->setEventDispatcher($events = m::mock('Illuminate\Events\Dispatcher'));
@@ -399,7 +399,7 @@ class DatabaseEloquentModelTest extends PHPUnit_Framework_TestCase {
 
 	public function testDeleteProperlyDeletesModel()
 	{
-		$model = $this->getMock('Illuminate\Database\Eloquent\Model', array('newQueryWithoutScopes', 'updateTimestamps', 'touchOwners'));
+		$model = $this->getMockBuilder('Illuminate\Database\Eloquent\Model')->setMethods(array('newQueryWithoutScopes', 'updateTimestamps', 'touchOwners'))->getMock();
 		$query = m::mock('stdClass');
 		$query->shouldReceive('where')->once()->with('id', 1)->andReturn($query);
 		$query->shouldReceive('delete')->once();

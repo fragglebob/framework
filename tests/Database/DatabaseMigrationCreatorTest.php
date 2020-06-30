@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Database\Migrations\MigrationCreator;
 
-class DatabaseMigrationCreatorTest extends PHPUnit_Framework_TestCase {
+class DatabaseMigrationCreatorTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -54,7 +54,7 @@ class DatabaseMigrationCreatorTest extends PHPUnit_Framework_TestCase {
 	{
 		$files = m::mock('Illuminate\Filesystem\Filesystem');
 
-		return $this->getMock('Illuminate\Database\Migrations\MigrationCreator', array('getDatePrefix'), array($files));
+		return $this->getMockBuilder('Illuminate\Database\Migrations\MigrationCreator')->setMethods(array('getDatePrefix'))->setConstructorArgs(array($files))->getMock();
 	}
 
 }

@@ -4,7 +4,7 @@ use Mockery as m;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Expression as Raw;
 
-class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase {
+class DatabaseQueryBuilderTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -782,7 +782,7 @@ class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase {
 		$connection = m::mock('Illuminate\Database\ConnectionInterface');
 		$grammar = m::mock('Illuminate\Database\Query\Grammars\Grammar');
 		$processor = m::mock('Illuminate\Database\Query\Processors\Processor');
-		$builder = $this->getMock('Illuminate\Database\Query\Builder', array('getPaginationCount', 'forPage', 'get'), array($connection, $grammar, $processor));
+		$builder = $this->getMockBuilder('Illuminate\Database\Query\Builder')->setMethods(array('getPaginationCount', 'forPage', 'get'))->setConstructorArgs(array($connection, $grammar, $processor))->getMock();
 		$paginator = m::mock('Illuminate\Pagination\Factory');
 		$paginator->shouldReceive('getCurrentPage')->once()->andReturn(1);
 		$connection->shouldReceive('getPaginator')->once()->andReturn($paginator);
@@ -800,7 +800,7 @@ class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase {
 		$connection = m::mock('Illuminate\Database\ConnectionInterface');
 		$grammar = m::mock('Illuminate\Database\Query\Grammars\Grammar');
 		$processor = m::mock('Illuminate\Database\Query\Processors\Processor');
-		$builder = $this->getMock('Illuminate\Database\Query\Builder', array('get'), array($connection, $grammar, $processor));
+		$builder = $this->getMockBuilder('Illuminate\Database\Query\Builder')->setMethods(array('get'))->setConstructorArgs(array($connection, $grammar, $processor))->getMock();
 		$paginator = m::mock('Illuminate\Pagination\Factory');
 		$paginator->shouldReceive('getCurrentPage')->once()->andReturn(2);
 		$connection->shouldReceive('getPaginator')->once()->andReturn($paginator);
@@ -836,7 +836,7 @@ class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase {
 		$connection = m::mock('Illuminate\Database\ConnectionInterface');
 		$grammar = m::mock('Illuminate\Database\Query\Grammars\Grammar');
 		$processor = m::mock('Illuminate\Database\Query\Processors\Processor');
-		$builder = $this->getMock('Illuminate\Database\Query\Builder', array('skip', 'take', 'get'), array($connection, $grammar, $processor));
+		$builder = $this->getMockBuilder('Illuminate\Database\Query\Builder')->setMethods(array('skip', 'take', 'get'))->setConstructorArgs(array($connection, $grammar, $processor))->getMock();
 		$paginator = m::mock('Illuminate\Pagination\Factory');
 		$paginator->shouldReceive('getCurrentPage')->once()->andReturn(1);
 		$connection->shouldReceive('getPaginator')->once()->andReturn($paginator);
@@ -1197,7 +1197,7 @@ class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase {
 		$grammar = new Illuminate\Database\Query\Grammars\Grammar;
 		$processor = m::mock('Illuminate\Database\Query\Processors\Processor');
 
-		$builder = $this->getMock('Illuminate\Database\Query\Builder', array('getFresh'), array($connection, $grammar, $processor));
+		$builder = $this->getMockBuilder('Illuminate\Database\Query\Builder')->setMethods(array('getFresh'))->setConstructorArgs(array($connection, $grammar, $processor))->getMock();
 		$builder->expects($this->once())->method('getFresh')->with($this->equalTo(array('*')))->will($this->returnValue(array('results')));
 		return $builder->select('*')->from('users')->where('email', 'foo@bar.com');
 	}

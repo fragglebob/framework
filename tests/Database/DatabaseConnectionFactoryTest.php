@@ -6,7 +6,7 @@ class DatabaseConnectionFactoryPDOStub extends PDO {
 	public function __construct() {}
 }
 
-class DatabaseConnectionFactoryTest extends PHPUnit_Framework_TestCase {
+class DatabaseConnectionFactoryTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -16,7 +16,7 @@ class DatabaseConnectionFactoryTest extends PHPUnit_Framework_TestCase {
 
 	public function testMakeCallsCreateConnection()
 	{
-		$factory = $this->getMock('Illuminate\Database\Connectors\ConnectionFactory', array('createConnector', 'createConnection'), array($container = m::mock('Illuminate\Container\Container')));
+		$factory = $this->getMockBuilder('Illuminate\Database\Connectors\ConnectionFactory')->setMethods(array('createConnector', 'createConnection'))->setConstructorArgs(array($container = m::mock('Illuminate\Container\Container')))->getMock();
 		$container->shouldReceive('bound')->andReturn(false);
 		$connector = m::mock('stdClass');
 		$config = array('driver' => 'mysql', 'prefix' => 'prefix', 'database' => 'database', 'name' => 'foo');
@@ -34,7 +34,7 @@ class DatabaseConnectionFactoryTest extends PHPUnit_Framework_TestCase {
 
 	public function testMakeCallsCreateConnectionForReadWrite()
 	{
-		$factory = $this->getMock('Illuminate\Database\Connectors\ConnectionFactory', array('createConnector', 'createConnection'), array($container = m::mock('Illuminate\Container\Container')));
+		$factory = $this->getMockBuilder('Illuminate\Database\Connectors\ConnectionFactory')->setMethods(array('createConnector', 'createConnection'))->setConstructorArgs(array($container = m::mock('Illuminate\Container\Container')))->getMock();
 		$container->shouldReceive('bound')->andReturn(false);
 		$connector = m::mock('stdClass');
 		$config = array(
@@ -61,7 +61,7 @@ class DatabaseConnectionFactoryTest extends PHPUnit_Framework_TestCase {
 
 	public function testMakeCanCallTheContainer()
 	{
-		$factory = $this->getMock('Illuminate\Database\Connectors\ConnectionFactory', array('createConnector'), array($container = m::mock('Illuminate\Container\Container')));
+		$factory = $this->getMockBuilder('Illuminate\Database\Connectors\ConnectionFactory')->setMethods(array('createConnector'))->setConstructorArgs(array($container = m::mock('Illuminate\Container\Container')))->getMock();
 		$container->shouldReceive('bound')->andReturn(true);
 		$connector = m::mock('stdClass');
 		$config = array('driver' => 'mysql', 'prefix' => 'prefix', 'database' => 'database', 'name' => 'foo');

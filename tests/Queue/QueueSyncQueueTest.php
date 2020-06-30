@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class QueueSyncQueueTest extends PHPUnit_Framework_TestCase {
+class QueueSyncQueueTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -12,7 +12,7 @@ class QueueSyncQueueTest extends PHPUnit_Framework_TestCase {
 
 	public function testPushShouldFireJobInstantly()
 	{
-		$sync = $this->getMock('Illuminate\Queue\SyncQueue', array('resolveJob'));
+		$sync = $this->getMockBuilder('Illuminate\Queue\SyncQueue')->setMethods(array('resolveJob'))->getMock();
 		$job = m::mock('StdClass');
 		$sync->expects($this->once())->method('resolveJob')->with($this->equalTo('Foo'), $this->equalTo('{"foo":"foobar"}'))->will($this->returnValue($job));
 		$job->shouldReceive('fire')->once();

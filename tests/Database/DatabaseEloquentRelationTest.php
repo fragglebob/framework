@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class DatabaseEloquentRelationTest extends PHPUnit_Framework_TestCase {
+class DatabaseEloquentRelationTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{

@@ -1,6 +1,6 @@
 <?php
 
-class SupportPluralizerTest extends PHPUnit_Framework_TestCase {
+class SupportPluralizerTest extends PHPUnit\Framework\TestCase {
 
 	public function testBasicUsage()
 	{

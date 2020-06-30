@@ -2,7 +2,7 @@
 
 use Illuminate\Filesystem\Filesystem;
 
-class FilesystemTest extends PHPUnit_Framework_TestCase {
+class FilesystemTest extends PHPUnit\Framework\TestCase {
 
 	public function testGetRetrievesFiles()
 	{

@@ -4,7 +4,7 @@ use Mockery as m;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
-class DatabaseEloquentBuilderTest extends PHPUnit_Framework_TestCase {
+class DatabaseEloquentBuilderTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -237,13 +237,13 @@ class DatabaseEloquentBuilderTest extends PHPUnit_Framework_TestCase {
 
 	public function testPaginateMethodWithGroupedQuery()
 	{
-		$query = $this->getMock('Illuminate\Database\Query\Builder', array('from', 'getConnection'), array(
+		$query = $this->getMockBuilder('Illuminate\Database\Query\Builder')->setMethods(array('from', 'getConnection'))->setConstructorArgs(array(
 			m::mock('Illuminate\Database\ConnectionInterface'),
 			m::mock('Illuminate\Database\Query\Grammars\Grammar'),
 			m::mock('Illuminate\Database\Query\Processors\Processor'),
-		));
+		))->getMock();
 		$query->expects($this->once())->method('from')->will($this->returnValue('foo_table'));
-		$builder = $this->getMock('Illuminate\Database\Eloquent\Builder', array('get'), array($query));
+		$builder = $this->getMockBuilder('Illuminate\Database\Eloquent\Builder')->setMethods(array('get'))->setConstructorArgs(array($query))->getMock();
 		$builder->setModel($this->getMockModel());
 		$builder->getModel()->shouldReceive('getPerPage')->once()->andReturn(2);
 		$conn = m::mock('stdClass');
@@ -260,13 +260,13 @@ class DatabaseEloquentBuilderTest extends PHPUnit_Framework_TestCase {
 
 	public function testQuickPaginateMethod()
 	{
-		$query = $this->getMock('Illuminate\Database\Query\Builder', array('from', 'getConnection', 'skip', 'take'), array(
+		$query = $this->getMockBuilder('Illuminate\Database\Query\Builder')->setMethods(array('from', 'getConnection', 'skip', 'take'))->setConstructorArgs(array(
 			m::mock('Illuminate\Database\ConnectionInterface'),
 			m::mock('Illuminate\Database\Query\Grammars\Grammar'),
 			m::mock('Illuminate\Database\Query\Processors\Processor'),
-		));
+		))->getMock();
 		$query->expects($this->once())->method('from')->will($this->returnValue('foo_table'));
-		$builder = $this->getMock('Illuminate\Database\Eloquent\Builder', array('get'), array($query));
+		$builder = $this->getMockBuilder('Illuminate\Database\Eloquent\Builder')->setMethods(array('get'))->setConstructorArgs(array($query))->getMock();
 		$builder->setModel($this->getMockModel());
 		$builder->getModel()->shouldReceive('getPerPage')->once()->andReturn(15);
 		$conn = m::mock('stdClass');

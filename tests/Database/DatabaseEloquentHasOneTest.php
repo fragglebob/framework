@@ -4,7 +4,7 @@ use Mockery as m;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class DatabaseEloquentHasOneTest extends PHPUnit_Framework_TestCase {
+class DatabaseEloquentHasOneTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -15,7 +15,7 @@ class DatabaseEloquentHasOneTest extends PHPUnit_Framework_TestCase {
 	public function testSaveMethodSetsForeignKeyOnModel()
 	{
 		$relation = $this->getRelation();
-		$mockModel = $this->getMock('Illuminate\Database\Eloquent\Model', array('save'));
+		$mockModel = $this->getMockBuilder('Illuminate\Database\Eloquent\Model')->setMethods(array('save'))->getMock();
 		$mockModel->expects($this->once())->method('save')->will($this->returnValue(true));
 		$result = $relation->save($mockModel);
 
@@ -27,7 +27,7 @@ class DatabaseEloquentHasOneTest extends PHPUnit_Framework_TestCase {
 	public function testCreateMethodProperlyCreatesNewModel()
 	{
 		$relation = $this->getRelation();
-		$created = $this->getMock('Illuminate\Database\Eloquent\Model', array('save', 'getKey', 'setAttribute'));
+		$created = $this->getMockBuilder('Illuminate\Database\Eloquent\Model')->setMethods(array('save', 'getKey', 'setAttribute'))->getMock();
 		$created->expects($this->once())->method('save')->will($this->returnValue(true));
 		$relation->getRelated()->shouldReceive('newInstance')->once()->with(array('name' => 'taylor'))->andReturn($created);
 		$created->expects($this->once())->method('setAttribute')->with('foreign_key', 1);

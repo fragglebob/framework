@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class ValidationDatabasePresenceVerifierTest extends PHPUnit_Framework_TestCase {
+class ValidationDatabasePresenceVerifierTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{

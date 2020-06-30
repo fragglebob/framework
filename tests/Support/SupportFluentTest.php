@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Fluent;
 
-class SupportFluentTest extends PHPUnit_Framework_TestCase {
+class SupportFluentTest extends PHPUnit\Framework\TestCase {
 
 	public function testAttributesAreSetByConstructor()
 	{
@@ -96,7 +96,7 @@ class SupportFluentTest extends PHPUnit_Framework_TestCase {
 
 	public function testToJsonEncodesTheToArrayResult()
 	{
-		$fluent = $this->getMock('Illuminate\Support\Fluent', array('toArray'));
+		$fluent = $this->getMockBuilder('Illuminate\Support\Fluent')->setMethods(array('toArray'))->getMock();
 		$fluent->expects($this->once())->method('toArray')->will($this->returnValue('foo'));
 		$results = $fluent->toJson();
 

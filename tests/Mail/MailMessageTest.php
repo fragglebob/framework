@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class MailMessageTest extends PHPUnit_Framework_TestCase {
+class MailMessageTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -13,7 +13,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase {
 	public function testBasicAttachment()
 	{
 		$swift = m::mock('StdClass');
-		$message = $this->getMock('Illuminate\Mail\Message', array('createAttachmentFromPath'), array($swift));
+		$message = $this->getMockBuilder('Illuminate\Mail\Message')->setMethods(array('createAttachmentFromPath'))->setConstructorArgs(array($swift))->getMock();
 		$attachment = m::mock('StdClass');
 		$message->expects($this->once())->method('createAttachmentFromPath')->with($this->equalTo('foo.jpg'))->will($this->returnValue($attachment));
 		$swift->shouldReceive('attach')->once()->with($attachment);
@@ -26,7 +26,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase {
 	public function testDataAttachment()
 	{
 		$swift = m::mock('StdClass');
-		$message = $this->getMock('Illuminate\Mail\Message', array('createAttachmentFromData'), array($swift));
+		$message = $this->getMockBuilder('Illuminate\Mail\Message')->setMethods(array('createAttachmentFromData'))->setConstructorArgs(array($swift))->getMock();
 		$attachment = m::mock('StdClass');
 		$message->expects($this->once())->method('createAttachmentFromData')->with($this->equalTo('foo'), $this->equalTo('name'))->will($this->returnValue($attachment));
 		$swift->shouldReceive('attach')->once()->with($attachment);

@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Database\Eloquent\Collection;
 
-class DatabaseEloquentCollectionTest extends PHPUnit_Framework_TestCase {
+class DatabaseEloquentCollectionTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -77,7 +77,7 @@ class DatabaseEloquentCollectionTest extends PHPUnit_Framework_TestCase {
 
 	public function testLoadMethodEagerLoadsGivenRelationships()
 	{
-		$c = $this->getMock('Illuminate\Database\Eloquent\Collection', array('first'), array(array('foo')));
+		$c = $this->getMockBuilder('Illuminate\Database\Eloquent\Collection')->setMethods(array('first'))->setConstructorArgs(array(array('foo')))->getMock();
 		$mockItem = m::mock('StdClass');
 		$c->expects($this->once())->method('first')->will($this->returnValue($mockItem));
 		$mockItem->shouldReceive('newQuery')->once()->andReturn($mockItem);

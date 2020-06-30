@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class MailMailerTest extends PHPUnit_Framework_TestCase {
+class MailMailerTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -13,7 +13,7 @@ class MailMailerTest extends PHPUnit_Framework_TestCase {
 	public function testMailerSendSendsMessageWithProperViewContent()
 	{
 		unset($_SERVER['__mailer.test']);
-		$mailer = $this->getMock('Illuminate\Mail\Mailer', array('createMessage'), $this->getMocks());
+		$mailer = $this->getMockBuilder('Illuminate\Mail\Mailer')->setMethods(array('createMessage'))->setConstructorArgs($this->getMocks())->getMock();
 		$message = m::mock('StdClass');
 		$mailer->expects($this->once())->method('createMessage')->will($this->returnValue($message));
 		$view = m::mock('StdClass');
@@ -32,7 +32,7 @@ class MailMailerTest extends PHPUnit_Framework_TestCase {
 	public function testMailerSendSendsMessageWithProperPlainViewContent()
 	{
 		unset($_SERVER['__mailer.test']);
-		$mailer = $this->getMock('Illuminate\Mail\Mailer', array('createMessage'), $this->getMocks());
+		$mailer = $this->getMockBuilder('Illuminate\Mail\Mailer')->setMethods(array('createMessage'))->setConstructorArgs($this->getMocks())->getMock();
 		$message = m::mock('StdClass');
 		$mailer->expects($this->once())->method('createMessage')->will($this->returnValue($message));
 		$view = m::mock('StdClass');
@@ -53,7 +53,7 @@ class MailMailerTest extends PHPUnit_Framework_TestCase {
 	public function testMailerSendSendsMessageWithProperPlainViewContentWhenExplicit()
 	{
 		unset($_SERVER['__mailer.test']);
-		$mailer = $this->getMock('Illuminate\Mail\Mailer', array('createMessage'), $this->getMocks());
+		$mailer = $this->getMockBuilder('Illuminate\Mail\Mailer')->setMethods(array('createMessage'))->setConstructorArgs($this->getMocks())->getMock();
 		$message = m::mock('StdClass');
 		$mailer->expects($this->once())->method('createMessage')->will($this->returnValue($message));
 		$view = m::mock('StdClass');
@@ -129,7 +129,7 @@ class MailMailerTest extends PHPUnit_Framework_TestCase {
 
 	public function testMessagesCanBeLoggedInsteadOfSent()
 	{
-		$mailer = $this->getMock('Illuminate\Mail\Mailer', array('createMessage'), $this->getMocks());
+		$mailer = $this->getMockBuilder('Illuminate\Mail\Mailer')->setMethods(array('createMessage'))->setConstructorArgs($this->getMocks())->getMock();
 		$message = m::mock('StdClass');
 		$mailer->expects($this->once())->method('createMessage')->will($this->returnValue($message));
 		$view = m::mock('StdClass');
@@ -152,7 +152,7 @@ class MailMailerTest extends PHPUnit_Framework_TestCase {
 
 	public function testMailerCanResolveMailerClasses()
 	{
-		$mailer = $this->getMock('Illuminate\Mail\Mailer', array('createMessage'), $this->getMocks());
+		$mailer = $this->getMockBuilder('Illuminate\Mail\Mailer')->setMethods(array('createMessage'))->setConstructorArgs($this->getMocks())->getMock();
 		$message = m::mock('StdClass');
 		$mailer->expects($this->once())->method('createMessage')->will($this->returnValue($message));
 		$view = m::mock('StdClass');

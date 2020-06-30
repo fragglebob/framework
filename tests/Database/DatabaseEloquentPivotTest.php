@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class DatabaseEloquentPivotTest extends PHPUnit_Framework_TestCase {
+class DatabaseEloquentPivotTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -75,7 +75,7 @@ class DatabaseEloquentPivotTest extends PHPUnit_Framework_TestCase {
 		$parent = m::mock('Illuminate\Database\Eloquent\Model[getConnectionName]');
 		$parent->guard(array());
 		$parent->shouldReceive('getConnectionName')->once()->andReturn('connection');
-		$pivot = $this->getMock('Illuminate\Database\Eloquent\Relations\Pivot', array('newQuery'), array($parent, array('foo' => 'bar'), 'table'));
+		$pivot = $this->getMockBuilder('Illuminate\Database\Eloquent\Relations\Pivot')->setMethods(array('newQuery'))->setConstructorArgs(array($parent, array('foo' => 'bar'), 'table'))->getMock();
 		$pivot->setPivotKeys('foreign', 'other');
 		$pivot->foreign = 'foreign.value';
 		$pivot->other = 'other.value';

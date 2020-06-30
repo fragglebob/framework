@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Database\Console\Migrations\MigrateCommand;
 
-class DatabaseMigrationMigrateCommandTest extends PHPUnit_Framework_TestCase {
+class DatabaseMigrationMigrateCommandTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -28,7 +28,7 @@ class DatabaseMigrationMigrateCommandTest extends PHPUnit_Framework_TestCase {
 	public function testMigrationRepositoryCreatedWhenNecessary()
 	{
 		$params = array($migrator = m::mock('Illuminate\Database\Migrations\Migrator'), __DIR__.'/vendor');
-		$command = $this->getMock('Illuminate\Database\Console\Migrations\MigrateCommand', array('call'), $params);
+		$command = $this->getMockBuilder('Illuminate\Database\Console\Migrations\MigrateCommand')->setMethods(array('call'))->setConstructorArgs($params)->getMock();
 		$app = new ApplicationDatabaseMigrationStub(array('path' => __DIR__));
 		$command->setLaravel($app);
 		$migrator->shouldReceive('setConnection')->once()->with(null);

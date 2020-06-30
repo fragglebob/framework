@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class DatabaseMigrationInstallCommandTest extends PHPUnit_Framework_TestCase {
+class DatabaseMigrationInstallCommandTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{

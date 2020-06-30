@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class ConfigRepositoryTest extends PHPUnit_Framework_TestCase {
+class ConfigRepositoryTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -118,7 +118,7 @@ class ConfigRepositoryTest extends PHPUnit_Framework_TestCase {
 
 	public function testPackageRegistersNamespaceAndSetsUpAfterLoadCallback()
 	{
-		$config = $this->getMock('Illuminate\Config\Repository', array('addNamespace'), array(m::mock('Illuminate\Config\LoaderInterface'), 'production'));
+		$config = $this->getMockBuilder('Illuminate\Config\Repository')->setMethods(array('addNamespace'))->setConstructorArgs(array(m::mock('Illuminate\Config\LoaderInterface'), 'production'))->getMock();
 		$config->expects($this->once())->method('addNamespace')->with($this->equalTo('rees'), $this->equalTo(__DIR__));
 		$config->getLoader()->shouldReceive('cascadePackage')->once()->with('production', 'dayle/rees', 'group', array('foo'))->andReturn(array('bar'));
 		$config->package('dayle/rees', __DIR__);

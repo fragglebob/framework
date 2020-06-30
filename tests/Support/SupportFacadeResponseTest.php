@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Support\Facades\Response;
 
-class SupportFacadeResponseTest extends PHPUnit_Framework_TestCase {
+class SupportFacadeResponseTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{

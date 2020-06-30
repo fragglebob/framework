@@ -2,7 +2,7 @@
 
 use Illuminate\Cache\FileStore;
 
-class CacheFileStoreTest extends PHPUnit_Framework_TestCase {
+class CacheFileStoreTest extends PHPUnit\Framework\TestCase {
 
 	public function testNullIsReturnedIfFileDoesntExist()
 	{
@@ -32,7 +32,7 @@ class CacheFileStoreTest extends PHPUnit_Framework_TestCase {
 		$files->expects($this->once())->method('exists')->will($this->returnValue(true));
 		$contents = '0000000000';
 		$files->expects($this->once())->method('get')->will($this->returnValue($contents));
-		$store = $this->getMock('Illuminate\Cache\FileStore', array('forget'), array($files, __DIR__));
+		$store = $this->getMockBuilder('Illuminate\Cache\FileStore')->setMethods(array('forget'))->setConstructorArgs(array($files, __DIR__))->getMock();
 		$store->expects($this->once())->method('forget');
 		$value = $store->get('foo');
 		$this->assertNull($value);
@@ -53,7 +53,7 @@ class CacheFileStoreTest extends PHPUnit_Framework_TestCase {
 	public function testStoreItemProperlyStoresValues()
 	{
 		$files = $this->mockFilesystem();
-		$store = $this->getMock('Illuminate\Cache\FileStore', array('expiration'), array($files, __DIR__));
+		$store = $this->getMockBuilder('Illuminate\Cache\FileStore')->setMethods(array('expiration'))->setConstructorArgs(array($files, __DIR__))->getMock();
 		$store->expects($this->once())->method('expiration')->with($this->equalTo(10))->will($this->returnValue(1111111111));
 		$contents = '1111111111'.serialize('Hello World');
 		$md5 = md5('foo');
@@ -123,7 +123,7 @@ class CacheFileStoreTest extends PHPUnit_Framework_TestCase {
 
 	protected function mockFilesystem()
 	{
-		return $this->getMock('Illuminate\Filesystem\Filesystem');
+		return $this->getMockBuilder('Illuminate\Filesystem\Filesystem')->getMock();
 	}
 
 }

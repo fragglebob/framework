@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class FoundationEnvironmentDetectorTest extends PHPUnit_Framework_TestCase {
+class FoundationEnvironmentDetectorTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{

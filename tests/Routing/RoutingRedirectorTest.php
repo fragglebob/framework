@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Routing\Redirector;
 
-class RoutingRedirectorTest extends PHPUnit_Framework_TestCase {
+class RoutingRedirectorTest extends PHPUnit\Framework\TestCase {
 
 	protected $headers;
 	protected $request;

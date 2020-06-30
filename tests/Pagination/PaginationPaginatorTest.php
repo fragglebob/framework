@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Pagination\Paginator;
 
-class PaginationPaginatorTest extends PHPUnit_Framework_TestCase {
+class PaginationPaginatorTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{

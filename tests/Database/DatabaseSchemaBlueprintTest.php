@@ -3,7 +3,7 @@
 use Mockery as m;
 use Illuminate\Database\Schema\Blueprint;
 
-class DatabaseSchemaBlueprintTest extends PHPUnit_Framework_TestCase {
+class DatabaseSchemaBlueprintTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -17,7 +17,7 @@ class DatabaseSchemaBlueprintTest extends PHPUnit_Framework_TestCase {
 		$conn->shouldReceive('statement')->once()->with('foo');
 		$conn->shouldReceive('statement')->once()->with('bar');
 		$grammar = m::mock('Illuminate\Database\Schema\Grammars\MySqlGrammar');
-		$blueprint = $this->getMock('Illuminate\Database\Schema\Blueprint', array('toSql'), array('users'));
+		$blueprint = $this->getMockBuilder('Illuminate\Database\Schema\Blueprint')->setMethods(array('toSql'))->setConstructorArgs(array('users'))->getMock();
 		$blueprint->expects($this->once())->method('toSql')->with($this->equalTo($conn), $this->equalTo($grammar))->will($this->returnValue(array('foo', 'bar')));
 
 		$blueprint->build($conn, $grammar);

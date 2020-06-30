@@ -1,10 +1,10 @@
 <?php
 
-class CacheMemcachedStoreTest extends PHPUnit_Framework_TestCase {
+class CacheMemcachedStoreTest extends PHPUnit\Framework\TestCase {
 
 	public function testGetReturnsNullWhenNotFound()
 	{
-		$memcache = $this->getMock('StdClass', array('get', 'getResultCode'));
+		$memcache = $this->getMockBuilder('StdClass')->setMethods(array('get', 'getResultCode'))->getMock();
 		$memcache->expects($this->once())->method('get')->with($this->equalTo('foo:bar'))->will($this->returnValue(null));
 		$memcache->expects($this->once())->method('getResultCode')->will($this->returnValue(1));
 		$store = new Illuminate\Cache\MemcachedStore($memcache, 'foo');
@@ -14,7 +14,7 @@ class CacheMemcachedStoreTest extends PHPUnit_Framework_TestCase {
 
 	public function testMemcacheValueIsReturned()
 	{
-		$memcache = $this->getMock('StdClass', array('get', 'getResultCode'));
+		$memcache = $this->getMockBuilder('StdClass')->setMethods(array('get', 'getResultCode'))->getMock();
 		$memcache->expects($this->once())->method('get')->will($this->returnValue('bar'));
 		$memcache->expects($this->once())->method('getResultCode')->will($this->returnValue(0));
 		$store = new Illuminate\Cache\MemcachedStore($memcache);
@@ -24,7 +24,7 @@ class CacheMemcachedStoreTest extends PHPUnit_Framework_TestCase {
 
 	public function testSetMethodProperlyCallsMemcache()
 	{
-		$memcache = $this->getMock('Memcached', array('set'));
+		$memcache = $this->getMockBuilder('Memcached')->setMethods(array('set'))->getMock();
 		$memcache->expects($this->once())->method('set')->with($this->equalTo('foo'), $this->equalTo('bar'), $this->equalTo(60));
 		$store = new Illuminate\Cache\MemcachedStore($memcache);
 		$store->put('foo', 'bar', 1);
@@ -33,7 +33,7 @@ class CacheMemcachedStoreTest extends PHPUnit_Framework_TestCase {
 
 	public function testIncrementMethodProperlyCallsMemcache()
 	{
-		$memcache = $this->getMock('Memcached', array('increment'));
+		$memcache = $this->getMockBuilder('Memcached')->setMethods(array('increment'))->getMock();
 		$memcache->expects($this->once())->method('increment')->with($this->equalTo('foo'), $this->equalTo(5));
 		$store = new Illuminate\Cache\MemcachedStore($memcache);
 		$store->increment('foo', 5);
@@ -42,7 +42,7 @@ class CacheMemcachedStoreTest extends PHPUnit_Framework_TestCase {
 
 	public function testDecrementMethodProperlyCallsMemcache()
 	{
-		$memcache = $this->getMock('Memcached', array('decrement'));
+		$memcache = $this->getMockBuilder('Memcached')->setMethods(array('decrement'))->getMock();
 		$memcache->expects($this->once())->method('decrement')->with($this->equalTo('foo'), $this->equalTo(5));
 		$store = new Illuminate\Cache\MemcachedStore($memcache);
 		$store->decrement('foo', 5);
@@ -51,7 +51,7 @@ class CacheMemcachedStoreTest extends PHPUnit_Framework_TestCase {
 
 	public function testStoreItemForeverProperlyCallsMemcached()
 	{
-		$memcache = $this->getMock('Memcached', array('set'));
+		$memcache = $this->getMockBuilder('Memcached')->setMethods(array('set'))->getMock();
 		$memcache->expects($this->once())->method('set')->with($this->equalTo('foo'), $this->equalTo('bar'), $this->equalTo(0));
 		$store = new Illuminate\Cache\MemcachedStore($memcache);
 		$store->forever('foo', 'bar');
@@ -60,7 +60,7 @@ class CacheMemcachedStoreTest extends PHPUnit_Framework_TestCase {
 
 	public function testForgetMethodProperlyCallsMemcache()
 	{
-		$memcache = $this->getMock('Memcached', array('delete'));
+		$memcache = $this->getMockBuilder('Memcached')->setMethods(array('delete'))->getMock();
 		$memcache->expects($this->once())->method('delete')->with($this->equalTo('foo'));
 		$store = new Illuminate\Cache\MemcachedStore($memcache);
 		$store->forget('foo');

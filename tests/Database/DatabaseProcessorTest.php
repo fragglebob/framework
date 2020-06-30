@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class DatabaseProcessorTest extends PHPUnit_Framework_TestCase {
+class DatabaseProcessorTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -12,7 +12,7 @@ class DatabaseProcessorTest extends PHPUnit_Framework_TestCase {
 
 	public function testInsertGetIdProcessing()
 	{
-		$pdo = $this->getMock('ProcessorTestPDOStub');
+		$pdo = $this->getMockBuilder('ProcessorTestPDOStub')->getMock();
 		$pdo->expects($this->once())->method('lastInsertId')->with($this->equalTo('id'))->will($this->returnValue('1'));
 		$connection = m::mock('Illuminate\Database\Connection');
 		$connection->shouldReceive('insert')->once()->with('sql', array('foo'));

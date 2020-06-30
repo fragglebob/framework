@@ -2,11 +2,11 @@
 
 use Illuminate\Foundation\AliasLoader;
 
-class FoundationAliasLoaderTest extends PHPUnit_Framework_TestCase {
+class FoundationAliasLoaderTest extends PHPUnit\Framework\TestCase {
 
 	public function testLoaderCanBeCreatedAndRegisteredOnce()
 	{
-		$loader = $this->getMock('Illuminate\Foundation\AliasLoader', array('prependToLoaderStack'), array(array('foo' => 'bar')));
+		$loader = $this->getMockBuilder('Illuminate\Foundation\AliasLoader')->setMethods(array('prependToLoaderStack'))->setConstructorArgs(array(array('foo' => 'bar')))->getMock();
 		$loader->expects($this->once())->method('prependToLoaderStack');
 
 		$this->assertEquals(array('foo' => 'bar'), $loader->getAliases());

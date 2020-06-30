@@ -2,7 +2,7 @@
 
 use Mockery as m;
 
-class QueueIronQueueTest extends PHPUnit_Framework_TestCase {
+class QueueIronQueueTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -64,7 +64,7 @@ class QueueIronQueueTest extends PHPUnit_Framework_TestCase {
 	public function testDelayedPushProperlyPushesJobOntoIronWithTimestamp()
 	{
 		$now = Carbon\Carbon::now();
-		$queue = $this->getMock('Illuminate\Queue\IronQueue', array('getTime'), array($iron = m::mock('IronMQ'), m::mock('Illuminate\Http\Request'), 'default', true));
+		$queue = $this->getMockBuilder('Illuminate\Queue\IronQueue')->setMethods(array('getTime'))->setConstructorArgs(array($iron = m::mock('IronMQ'), m::mock('Illuminate\Http\Request'), 'default', true))->getMock();
 		$crypt = m::mock('Illuminate\Encryption\Encrypter');
 		$queue->setEncrypter($crypt);
 		$queue->expects($this->once())->method('getTime')->will($this->returnValue($now->getTimestamp()));
@@ -106,7 +106,7 @@ class QueueIronQueueTest extends PHPUnit_Framework_TestCase {
 
 	public function testPushedJobsCanBeMarshaled()
 	{
-		$queue = $this->getMock('Illuminate\Queue\IronQueue', array('createPushedIronJob'), array($iron = m::mock('IronMQ'), $request = m::mock('Illuminate\Http\Request'), 'default', true));
+		$queue = $this->getMockBuilder('Illuminate\Queue\IronQueue')->setMethods(array('createPushedIronJob'))->setConstructorArgs(array($iron = m::mock('IronMQ'), $request = m::mock('Illuminate\Http\Request'), 'default', true))->getMock();
 		$crypt = m::mock('Illuminate\Encryption\Encrypter');
 		$queue->setEncrypter($crypt);
 		$request->shouldReceive('header')->once()->with('iron-message-id')->andReturn('message-id');

@@ -4,7 +4,7 @@ use Mockery as m;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
-class HttpRequestTest extends PHPUnit_Framework_TestCase {
+class HttpRequestTest extends PHPUnit\Framework\TestCase {
 
 	public function tearDown()
 	{
@@ -316,7 +316,7 @@ class HttpRequestTest extends PHPUnit_Framework_TestCase {
 
 	public function testAllInputReturnsInputAndFiles()
 	{
-		$file = $this->getMock('Symfony\Component\HttpFoundation\File\UploadedFile', null, array(__FILE__, 'photo.jpg'));
+		$file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')->setConstructorArgs(array(__FILE__, 'photo.jpg'))->getMock();
 		$request = Request::create('/?boom=breeze', 'GET', array('foo' => 'bar'), array(), array('baz' => $file));
 		$this->assertEquals(array('foo' => 'bar', 'baz' => $file, 'boom' => 'breeze'), $request->all());
 	}
@@ -324,7 +324,7 @@ class HttpRequestTest extends PHPUnit_Framework_TestCase {
 
 	public function testAllInputReturnsNestedInputAndFiles()
 	{
-		$file = $this->getMock('Symfony\Component\HttpFoundation\File\UploadedFile', null, array(__FILE__, 'photo.jpg'));
+		$file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')->setConstructorArgs(array(__FILE__, 'photo.jpg'))->getMock();
 		$request = Request::create('/?boom=breeze', 'GET', array('foo' => array('bar' => 'baz')), array(), array('foo' => array('photo' => $file)));
 		$this->assertEquals(array('foo' => array('bar' => 'baz', 'photo' => $file), 'boom' => 'breeze'), $request->all());
 	}
@@ -388,7 +388,7 @@ class HttpRequestTest extends PHPUnit_Framework_TestCase {
 
 	public function testSessionMethod()
 	{
-		$this->setExpectedException('RuntimeException');
+		$this->expectException('RuntimeException');
 		$request = Request::create('/', 'GET');
 		$request->session();
 	}
