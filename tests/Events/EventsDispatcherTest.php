@@ -5,7 +5,7 @@ use Illuminate\Events\Dispatcher;
 
 class EventsDispatcherTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

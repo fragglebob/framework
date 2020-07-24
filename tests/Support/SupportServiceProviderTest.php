@@ -2,7 +2,7 @@
 
 class SupportServiceProviderTest extends PHPUnit\Framework\TestCase {
 
-	public static function setUpBeforeClass()
+	public static function setUpBeforeClass(): void
 	{
 		require_once __DIR__.'/stubs/providers/SuperProvider.php';
 		require_once __DIR__.'/stubs/providers/SuperSuperProvider.php';

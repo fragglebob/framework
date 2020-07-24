@@ -5,7 +5,7 @@ use Mockery as m;
 
 class HandlerTest extends PHPUnit\Framework\TestCase
 {
-	protected function setUp()
+	protected function setUp(): void
 	{
 		$this->responsePreparer = m::mock('Illuminate\Support\Contracts\ResponsePreparerInterface');
 		$this->plainDisplayer = m::mock('Illuminate\Exception\ExceptionDisplayerInterface');

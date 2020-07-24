@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Response;
 
 class SupportFacadeResponseTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

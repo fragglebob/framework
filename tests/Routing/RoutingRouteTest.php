@@ -144,22 +144,19 @@ class RoutingRouteTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	/**
-	 * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-	 */
+
 	public function testRoutesDontMatchNonMatchingPathsWithLeadingOptionals()
 	{
-		$router = $this->getRouter();
+        $this->expectException(Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
+	    $router = $this->getRouter();
 		$router->get('{baz?}', function($age = 25) { return $age; });
 		$this->assertEquals('25', $router->dispatch(Request::create('foo/bar', 'GET'))->getContent());
 	}
 
 
-	/**
-	 * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-	 */
 	public function testRoutesDontMatchNonMatchingDomain()
 	{
+        $this->expectException(Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
 		$router = $this->getRouter();
 		$route = $router->get('foo/bar', array('domain' => 'api.foo.bar', function() { return 'hello'; }));
 		$this->assertEquals('hello', $router->dispatch(Request::create('http://api.baz.boom/foo/bar', 'GET'))->getContent());
@@ -580,11 +577,9 @@ class RoutingRouteTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	/**
-	 * @expectedException Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-	 */
 	public function testModelBindingWithNullReturn()
 	{
+        $this->expectException(Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class);
 		$router = $this->getRouter();
 		$router->get('foo/{bar}', function($name) { return $name; });
 		$router->model('bar', 'RouteModelBindingNullStub');

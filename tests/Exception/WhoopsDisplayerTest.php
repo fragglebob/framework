@@ -6,7 +6,7 @@ use Mockery as m;
 
 class WhoopsDisplayerTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

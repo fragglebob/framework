@@ -5,7 +5,7 @@ use Illuminate\Routing\Generators\ControllerGenerator;
 
 class RoutingControllerGeneratorTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

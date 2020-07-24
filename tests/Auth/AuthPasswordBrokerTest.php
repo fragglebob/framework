@@ -5,7 +5,7 @@ use Illuminate\Auth\Reminders\PasswordBroker;
 
 class AuthPasswordBrokerTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
@@ -20,13 +20,10 @@ class AuthPasswordBrokerTest extends PHPUnit\Framework\TestCase {
 		$this->assertEquals(PasswordBroker::INVALID_USER, $broker->remind(array('credentials')));
 	}
 
-
-	/**
-	 * @expectedException UnexpectedValueException
-	 */
 	public function testGetUserThrowsExceptionIfUserDoesntImplementRemindable()
 	{
-		$broker = $this->getBroker($mocks = $this->getMocks());
+		$this->expectException(UnexpectedValueException::class);
+	    $broker = $this->getBroker($mocks = $this->getMocks());
 		$mocks['users']->shouldReceive('retrieveByCredentials')->once()->with(array('foo'))->andReturn('bar');
 
 		$broker->getUser(array('foo'));

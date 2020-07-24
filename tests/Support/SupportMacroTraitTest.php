@@ -5,7 +5,7 @@ class SupportMacroTraitTest extends PHPUnit\Framework\TestCase {
 
 	private $macroTrait;
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		$this->macroTrait = $this->createObjectForTrait();
 	}

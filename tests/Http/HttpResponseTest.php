@@ -5,7 +5,7 @@ use Illuminate\Support\Contracts\JsonableInterface;
 
 class HttpResponseTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

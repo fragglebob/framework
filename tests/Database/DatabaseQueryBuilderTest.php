@@ -6,7 +6,7 @@ use Illuminate\Database\Query\Expression as Raw;
 
 class DatabaseQueryBuilderTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
@@ -1185,12 +1185,10 @@ class DatabaseQueryBuilderTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	/**
-	 * @expectedException BadMethodCallException
-	 */
 	public function testBuilderThrowsExpectedExceptionWithUndefinedMethod()
 	{
-		$builder = $this->getBuilder();
+		$this->expectException(BadMethodCallException::class);
+	    $builder = $this->getBuilder();
 
 		$builder->noValidMethodHere();
 	}

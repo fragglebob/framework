@@ -5,7 +5,7 @@ use Illuminate\Validation\Factory;
 
 class ValidationFactoryTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

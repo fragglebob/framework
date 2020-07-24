@@ -12,7 +12,7 @@ class FormBuilderTest extends PHPUnit\Framework\TestCase {
 	/**
 	 * Setup the test environment.
 	 */
-	public function setUp()
+	protected function setUp(): void
 	{
 		$this->urlGenerator = new UrlGenerator(new RouteCollection, Request::create('/foo', 'GET'));
 		$this->htmlBuilder = new HtmlBuilder($this->urlGenerator);
@@ -23,7 +23,7 @@ class FormBuilderTest extends PHPUnit\Framework\TestCase {
 	/**
 	 * Destroy the test environment.
 	 */
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
@@ -260,9 +260,9 @@ class FormBuilderTest extends PHPUnit\Framework\TestCase {
 		$select2 = $this->formBuilder->selectYear('year', 2000, 2020, null, array('id' => 'foo'));
 		$select3 = $this->formBuilder->selectYear('year', 2000, 2020, '2000');
 
-		$this->assertContains('<select name="year"><option value="2000">2000</option><option value="2001">2001</option>', $select1);
-		$this->assertContains('<select id="foo" name="year"><option value="2000">2000</option><option value="2001">2001</option>', $select2);
-		$this->assertContains('<select name="year"><option value="2000" selected="selected">2000</option><option value="2001">2001</option>', $select3);
+		$this->assertStringContainsString('<select name="year"><option value="2000">2000</option><option value="2001">2001</option>', $select1);
+		$this->assertStringContainsString('<select id="foo" name="year"><option value="2000">2000</option><option value="2001">2001</option>', $select2);
+		$this->assertStringContainsString('<select name="year"><option value="2000" selected="selected">2000</option><option value="2001">2001</option>', $select3);
 	}
 
 
@@ -270,8 +270,8 @@ class FormBuilderTest extends PHPUnit\Framework\TestCase {
 	{
 		$range = $this->formBuilder->selectRange('dob', 1900, 2013);
 
-		$this->assertContains('<select name="dob"><option value="1900">1900</option>', $range);
-		$this->assertContains('<option value="2013">2013</option>', $range);
+		$this->assertStringContainsString('<select name="dob"><option value="1900">1900</option>', $range);
+		$this->assertStringContainsString('<option value="2013">2013</option>', $range);
 	}
 
 
@@ -281,9 +281,9 @@ class FormBuilderTest extends PHPUnit\Framework\TestCase {
 		$month2 = $this->formBuilder->selectMonth('month', '1');
 		$month3 = $this->formBuilder->selectMonth('month', null, array('id' => 'foo'));
 
-		$this->assertContains('<select name="month"><option value="1">January</option><option value="2">February</option>', $month1);
-		$this->assertContains('<select name="month"><option value="1" selected="selected">January</option>', $month2);
-		$this->assertContains('<select id="foo" name="month"><option value="1">January</option>', $month3);
+		$this->assertStringContainsString('<select name="month"><option value="1">January</option><option value="2">February</option>', $month1);
+		$this->assertStringContainsString('<select name="month"><option value="1" selected="selected">January</option>', $month2);
+		$this->assertStringContainsString('<select id="foo" name="month"><option value="1">January</option>', $month3);
 	}
 
 

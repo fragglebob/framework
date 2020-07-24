@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class ValidationValidatorTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
@@ -1340,12 +1340,10 @@ class ValidationValidatorTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
 	public function testExceptionThrownOnIncorrectParameterCount()
 	{
-		$trans = $this->getTranslator();
+		$this->expectException(InvalidArgumentException::class);
+	    $trans = $this->getTranslator();
 		$v = new Validator($trans, array(), array('foo' => 'required_if:foo'));
 		$v->passes();
 	}
@@ -1375,12 +1373,10 @@ class ValidationValidatorTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
 	public function testValidateEachWithNonArrayWithoutArrayRule()
 	{
-		$trans = $this->getRealTranslator();
+        $this->expectException(InvalidArgumentException::class);
+	    $trans = $this->getRealTranslator();
 		$v = new Validator($trans, ['foo' => 'string'], ['foo' => 'numeric']);
 		$v->each('foo', ['min:7|max:13']);
 		$this->assertFalse($v->passes());

@@ -8,7 +8,7 @@ class SupportCapsuleManagerTraitTest extends PHPUnit\Framework\TestCase {
 
 	use CapsuleManagerTrait;
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

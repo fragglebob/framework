@@ -4,7 +4,7 @@ use Mockery as m;
 
 class AuthDatabaseReminderRepositoryTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+    protected function tearDown(): void
 	{
 		m::close();
 	}
@@ -22,7 +22,7 @@ class AuthDatabaseReminderRepositoryTest extends PHPUnit\Framework\TestCase {
 
 		$results = $repo->create($user);
 
-		$this->assertInternalType('string', $results);
+		$this->assertIsString($results);
 		$this->assertGreaterThan(1, strlen($results));
 	}
 

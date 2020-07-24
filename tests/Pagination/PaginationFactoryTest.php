@@ -5,7 +5,7 @@ use Illuminate\Pagination\Factory;
 
 class PaginationFactoryTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

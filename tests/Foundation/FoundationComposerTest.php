@@ -4,7 +4,7 @@ use Mockery as m;
 
 class FoundationComposerTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

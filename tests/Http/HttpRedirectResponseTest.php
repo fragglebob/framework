@@ -6,7 +6,7 @@ use Illuminate\Http\RedirectResponse;
 
 class HttpRedirectResponseTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

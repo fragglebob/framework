@@ -5,7 +5,7 @@ use Illuminate\Pagination\BootstrapPresenter;
 
 class PaginationBootstrapPresenterTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

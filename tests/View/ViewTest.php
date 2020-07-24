@@ -6,7 +6,7 @@ use Illuminate\Support\Contracts\ArrayableInterface;
 
 class ViewTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

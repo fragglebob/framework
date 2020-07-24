@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Builder;
 
 class DatabaseSchemaBuilderTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

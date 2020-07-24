@@ -5,7 +5,7 @@ use Illuminate\View\Compilers\BladeCompiler;
 
 class ViewBladeCompilerTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

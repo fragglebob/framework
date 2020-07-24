@@ -5,7 +5,7 @@ use Illuminate\Cache\DatabaseStore;
 
 class CacheDatabaseStoreTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

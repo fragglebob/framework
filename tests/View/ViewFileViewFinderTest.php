@@ -4,7 +4,7 @@ use Mockery as m;
 
 class ViewFinderTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
@@ -74,11 +74,9 @@ class ViewFinderTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
 	public function testExceptionThrownWhenViewNotFound()
 	{
+        $this->expectException(InvalidArgumentException::class);
 		$finder = $this->getFinder();
 		$finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__.'/foo.blade.php')->andReturn(false);
 		$finder->getFilesystem()->shouldReceive('exists')->once()->with(__DIR__.'/foo.php')->andReturn(false);
@@ -87,21 +85,17 @@ class ViewFinderTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
 	public function testExceptionThrownOnInvalidViewName()
 	{
+        $this->expectException(InvalidArgumentException::class);
 		$finder = $this->getFinder();
 		$finder->find('name::');
 	}
 
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
 	public function testExceptionThrownWhenNoHintPathIsRegistered()
 	{
+        $this->expectException(InvalidArgumentException::class);
 		$finder = $this->getFinder();
 		$finder->find('name::foo');
 	}

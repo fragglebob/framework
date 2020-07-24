@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class DatabaseEloquentRelationTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

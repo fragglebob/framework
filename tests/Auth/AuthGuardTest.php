@@ -5,7 +5,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AuthGuardTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

@@ -7,12 +7,12 @@ use Guzzle\Service\Resource\Model;
 
 class QueueSqsQueueTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
 
-	public function setUp() {
+	protected function setUp(): void {
 
 		// Use Mockery to mock the SqsClient
 		$this->sqs = m::mock('Aws\Sqs\SqsClient');

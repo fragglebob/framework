@@ -8,7 +8,7 @@ use Aws\Common\Credentials\Credentials;
 
 class QueueSqsJobTest extends PHPUnit\Framework\TestCase {
 
-	public function setUp() {
+	protected function setUp(): void {
 
 		$this->key = 'AMAZONSQSKEY';
 		$this->secret = 'AmAz0n+SqSsEcReT+aLpHaNuM3R1CsTr1nG';
@@ -47,7 +47,7 @@ class QueueSqsJobTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

@@ -5,7 +5,7 @@ use Illuminate\Cache\ArrayStore;
 
 class CacheTaggedCacheTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

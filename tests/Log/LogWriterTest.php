@@ -5,7 +5,7 @@ use Illuminate\Log\Writer;
 
 class LogWriterTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
@@ -69,12 +69,10 @@ class LogWriterTest extends PHPUnit\Framework\TestCase {
 	}
 
 
-	/**
-	 * @expectedException RuntimeException
-	 */
 	public function testListenShortcutFailsWithNoDispatcher()
 	{
-		$writer = new Writer($monolog = m::mock('Monolog\Logger'));
+		$this->expectException(RuntimeException::class);
+	    $writer = new Writer($monolog = m::mock('Monolog\Logger'));
 		$writer->listen(function() {});
 	}
 

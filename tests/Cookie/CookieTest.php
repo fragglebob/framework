@@ -6,7 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CookieTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

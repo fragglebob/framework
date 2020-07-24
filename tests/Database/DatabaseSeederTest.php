@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeederTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

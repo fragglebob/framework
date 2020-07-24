@@ -5,7 +5,7 @@ use Illuminate\Queue\QueueManager;
 
 class QueueManagerTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

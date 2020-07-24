@@ -9,13 +9,13 @@ use Illuminate\Routing\ControllerDispatcher;
 
 class RoutingControllerDispatcherTest extends PHPUnit\Framework\TestCase {
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		$_SERVER['ControllerDispatcherTestControllerStub'] = null;
 	}
 
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		unset($_SERVER['ControllerDispatcherTestControllerStub']);
 		m::close();

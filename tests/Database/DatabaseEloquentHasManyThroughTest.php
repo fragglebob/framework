@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class DatabaseEloquentHasManyThroughTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}

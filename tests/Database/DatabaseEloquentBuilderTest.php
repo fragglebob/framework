@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 class DatabaseEloquentBuilderTest extends PHPUnit\Framework\TestCase {
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
@@ -56,24 +56,22 @@ class DatabaseEloquentBuilderTest extends PHPUnit\Framework\TestCase {
 		$this->assertInstanceOf('Illuminate\Database\Eloquent\Model', $result);
 	}
 
-	/**
-	 * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
-	 */
+
 	public function testFindOrFailMethodThrowsModelNotFoundException()
 	{
-		$builder = m::mock('Illuminate\Database\Eloquent\Builder[first]', array($this->getMockQueryBuilder()));
+        $this->expectException(Illuminate\Database\Eloquent\ModelNotFoundException::class);
+	    $builder = m::mock('Illuminate\Database\Eloquent\Builder[first]', array($this->getMockQueryBuilder()));
 		$builder->setModel($this->getMockModel());
 		$builder->getQuery()->shouldReceive('where')->once()->with('foo_table.foo', '=', 'bar');
 		$builder->shouldReceive('first')->with(array('column'))->andReturn(null);
 		$result = $builder->findOrFail('bar', array('column'));
 	}
 
-	/**
-	 * @expectedException Illuminate\Database\Eloquent\ModelNotFoundException
-	 */
+
 	public function testFirstOrFailMethodThrowsModelNotFoundException()
 	{
-		$builder = m::mock('Illuminate\Database\Eloquent\Builder[first]', array($this->getMockQueryBuilder()));
+		$this->expectException(Illuminate\Database\Eloquent\ModelNotFoundException::class);
+	    $builder = m::mock('Illuminate\Database\Eloquent\Builder[first]', array($this->getMockQueryBuilder()));
 		$builder->setModel($this->getMockModel());
 		$builder->shouldReceive('first')->with(array('column'))->andReturn(null);
 		$result = $builder->firstOrFail(array('column'));

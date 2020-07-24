@@ -4,14 +4,14 @@ use Mockery as m;
 
 class SupportFacadeTest extends PHPUnit\Framework\TestCase {
 
-	public function setUp()
+	protected function setUp(): void
 	{
 		Illuminate\Support\Facades\Facade::clearResolvedInstances();
 		FacadeStub::setFacadeApplication(null);
 	}
 
 
-	public function tearDown()
+	protected function tearDown(): void
 	{
 		m::close();
 	}
