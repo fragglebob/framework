@@ -16,7 +16,7 @@ abstract class Facade {
 	 *
 	 * @var array
 	 */
-	protected static $resolvedInstance;
+	protected static $resolvedInstance = [];
 
 	/**
 	 * Hotswap the underlying instance behind the facade.
@@ -143,7 +143,10 @@ abstract class Facade {
 			return static::$resolvedInstance[$name];
 		}
 
-		return static::$resolvedInstance[$name] = static::$app[$name];
+        if (static::$app)
+        {
+            return static::$resolvedInstance[$name] = static::$app[$name];
+        }
 	}
 
 	/**
@@ -164,7 +167,7 @@ abstract class Facade {
 	 */
 	public static function clearResolvedInstances()
 	{
-		static::$resolvedInstance = array();
+		static::$resolvedInstance = [];
 	}
 
 	/**

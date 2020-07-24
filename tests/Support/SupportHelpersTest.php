@@ -187,16 +187,6 @@ class SupportHelpersTest extends PHPUnit\Framework\TestCase {
 		$this->assertFalse(ends_with('jason', array('no')));
 	}
 
-
-	public function testStrContains()
-	{
-		$this->assertTrue(str_contains('taylor', 'ylo'));
-		$this->assertTrue(str_contains('taylor', array('ylo')));
-		$this->assertFalse(str_contains('taylor', 'xxx'));
-		$this->assertFalse(str_contains('taylor', array('xxx')));
-	}
-
-
 	public function testSnakeCase()
 	{
 		$this->assertEquals('foo_bar', snake_case('fooBar'));

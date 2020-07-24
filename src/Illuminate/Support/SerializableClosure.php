@@ -1,18 +1,11 @@
 <?php namespace Illuminate\Support;
 
-use SuperClosure\SerializableClosure as SuperClosure;
+use Opis\Closure\SerializableClosure as SuperClosure;
 
 /**
  * Extends SuperClosure for backwards compatibility.
  */
 class SerializableClosure extends SuperClosure {
-
-	/**
-	 * The code for the closure
-	 *
-	 * @var string
-	 */
-	protected $code;
 
 	/**
 	 * The variables that were "used" or imported from the parent scope
@@ -52,9 +45,9 @@ class SerializableClosure extends SuperClosure {
 	{
 		if ( ! $this->code)
 		{
-            $unserialized = unserialize($this->serialize());
-            $this->code = $unserialized["code"];
-            $this->variables = $unserialized["context"];
+            $ref = $this->getReflector();
+            $this->variables = $ref->getStaticVariables();
+            $this->code = $ref->getCode();
 		}
 	}
 
