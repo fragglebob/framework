@@ -542,7 +542,7 @@ class Container implements ArrayAccess {
 	/**
 	 * Resolve all of the dependencies from the ReflectionParameters.
 	 *
-	 * @param  array  $parameters
+	 * @param  ReflectionParameter[]  $parameters
 	 * @param  array  $primitives
 	 * @return array
 	 */
@@ -552,16 +552,16 @@ class Container implements ArrayAccess {
 
 		foreach ($parameters as $parameter)
 		{
-			$dependency = $parameter->getClass();
+			$dependency = $parameter->getType();
 
 			// If the class is null, it means the dependency is a string or some other
 			// primitive type which we can not resolve since it is not a class and
 			// we will just bomb out with an error since we have no-where to go.
-			if (array_key_exists($parameter->name, $primitives))
+			if (array_key_exists($parameter->getName(), $primitives))
 			{
-				$dependencies[] = $primitives[$parameter->name];
+				$dependencies[] = $primitives[$parameter->getName()];
 			}
-			elseif (is_null($dependency))
+			elseif (is_null($dependency) || $dependency->isBuiltin())
 			{
 				$dependencies[] = $this->resolveNonClass($parameter);
 			}
@@ -606,7 +606,7 @@ class Container implements ArrayAccess {
 	{
 		try
 		{
-			return $this->make($parameter->getClass()->name);
+			return $this->make($parameter->getType()->getName());
 		}
 
 		// If we can not resolve the class instance, we will check to see if the value

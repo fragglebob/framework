@@ -2,7 +2,7 @@
 
 use Illuminate\Container\Container;
 
-class ContainerContainerTest extends PHPUnit\Framework\TestCase {
+class ContainerTest extends PHPUnit\Framework\TestCase {
 
 	public function testClosureResolution()
 	{
@@ -324,7 +324,7 @@ class ContainerContainerTest extends PHPUnit\Framework\TestCase {
 	public function testInternalClassWithDefaultParameters()
 	{
 		$this->expectException('Illuminate\Container\BindingResolutionException');
-        $this->expectExceptionMessage('Unresolvable dependency resolving [Parameter #0 [ <required> $first ]] in class ContainerMixedPrimitiveStub');
+        $this->expectExceptionMessage('Unresolvable dependency resolving [Parameter #0 [ <required> string $first ]] in class ContainerMixedPrimitiveStub');
 		$container = new Container;
 		$parameters = array();
 		$container->make('ContainerMixedPrimitiveStub', $parameters);
@@ -375,7 +375,7 @@ class ContainerDefaultValueStub {
 
 class ContainerMixedPrimitiveStub {
 	public $first; public $last; public $stub;
-	public function __construct($first, ContainerConcreteStub $stub, $last)
+	public function __construct(string $first, ContainerConcreteStub $stub, ?string $last)
 	{
 		$this->stub = $stub;
 		$this->last = $last;
