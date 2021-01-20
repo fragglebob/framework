@@ -67,14 +67,15 @@ class DatabaseUserProvider implements UserProviderInterface {
 	public function retrieveByToken($identifier, $token)
 	{
 		$user = $this->conn->table($this->table)
-                                ->where('id', $identifier)
-                                ->where('remember_token', $token)
-                                ->first();
+            ->where('id', $identifier)
+            ->first();
 
-		if ( ! is_null($user))
+		if ($user && hash_equals($user->remember_token, $token))
 		{
 			return new GenericUser((array) $user);
 		}
+
+		return null;
 	}
 
 	/**

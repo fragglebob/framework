@@ -478,7 +478,7 @@ class Builder {
 
 		if ( ! $value instanceof Expression)
 		{
-			$this->addBinding($value, 'where');
+			$this->addBinding(is_array($value) ? head($value) : $value, 'where');
 		}
 
 		return $this;
@@ -557,7 +557,7 @@ class Builder {
 
 		$this->wheres[] = compact('column', 'type', 'boolean', 'not');
 
-		$this->addBinding($values, 'where');
+		$this->addBinding(array_slice($values, 0, 2), 'where');
 
 		return $this;
 	}
@@ -940,7 +940,7 @@ class Builder {
 	{
 		$this->wheres[] = compact('column', 'type', 'boolean', 'operator', 'value');
 
-		$this->addBinding($value, 'where');
+		$this->addBinding(is_array($value) ? head($value) : $value, 'where');
 
 		return $this;
 	}
@@ -1039,7 +1039,7 @@ class Builder {
 
 		$this->havings[] = compact('type', 'column', 'operator', 'value', 'boolean');
 
-		$this->addBinding($value, 'having');
+		$this->addBinding(is_array($value) ? head($value) : $value, 'having');
 
 		return $this;
 	}

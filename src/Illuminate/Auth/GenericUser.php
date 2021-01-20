@@ -27,7 +27,7 @@ class GenericUser implements UserInterface {
 	 */
 	public function getAuthIdentifier()
 	{
-		return $this->attributes['id'];
+		return $this->attributes[$this->getAuthIdentifierName()];
 	}
 
 	/**
@@ -70,6 +70,13 @@ class GenericUser implements UserInterface {
 	{
 		return 'remember_token';
 	}
+
+
+
+    public function getAuthIdentifierName()
+    {
+        return 'id';
+    }
 
 	/**
 	 * Dynamically access the user's attributes.
@@ -115,5 +122,4 @@ class GenericUser implements UserInterface {
 	{
 		unset($this->attributes[$key]);
 	}
-
 }

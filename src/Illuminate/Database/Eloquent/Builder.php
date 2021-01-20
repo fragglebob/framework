@@ -964,7 +964,7 @@ class Builder {
 
 			return call_user_func_array($this->macros[$method], $parameters);
 		}
-		elseif (method_exists($this->model, $scope = 'scope'.ucfirst($method)))
+		elseif ($this->model && method_exists($this->model, $scope = 'scope'.ucfirst($method)))
 		{
 			return $this->callScope($scope, $parameters);
 		}

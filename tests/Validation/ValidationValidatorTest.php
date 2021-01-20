@@ -775,15 +775,16 @@ class ValidationValidatorTest extends PHPUnit\Framework\TestCase {
 		$this->assertFalse($v->passes());
 
 		$file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')->setMethods(array('isValid', 'getSize'))->setConstructorArgs(array(__FILE__, basename(__FILE__)))->getMock();
-		$file->expects($this->at(0))->method('isValid')->will($this->returnValue(true));
-		$file->expects($this->at(1))->method('getSize')->will($this->returnValue(3072));
+
+		$file->expects($this->once())->method('isValid')->will($this->returnValue(true));
+		$file->expects($this->once())->method('getSize')->will($this->returnValue(3072));
 		$v = new Validator($trans, array(), array('photo' => 'Max:10'));
 		$v->setFiles(array('photo' => $file));
 		$this->assertTrue($v->passes());
 
 		$file = $this->getMockBuilder('Symfony\Component\HttpFoundation\File\UploadedFile')->setMethods(array('isValid', 'getSize'))->setConstructorArgs(array(__FILE__, basename(__FILE__)))->getMock();
-		$file->expects($this->at(0))->method('isValid')->will($this->returnValue(true));
-		$file->expects($this->at(1))->method('getSize')->will($this->returnValue(4072));
+		$file->expects($this->once())->method('isValid')->will($this->returnValue(true));
+		$file->expects($this->once())->method('getSize')->will($this->returnValue(4072));
 		$v = new Validator($trans, array(), array('photo' => 'Max:2'));
 		$v->setFiles(array('photo' => $file));
 		$this->assertFalse($v->passes());

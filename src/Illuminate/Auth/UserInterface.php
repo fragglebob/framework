@@ -2,6 +2,13 @@
 
 interface UserInterface {
 
+    /**
+     * Get the column name for the unique identifier.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifierName();
+
 	/**
 	 * Get the unique identifier for the user.
 	 *

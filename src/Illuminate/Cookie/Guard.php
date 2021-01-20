@@ -84,7 +84,7 @@ class Guard implements HttpKernelInterface {
 	{
 		return is_array($cookie)
 						? $this->decryptArray($cookie)
-						: $this->encrypter->decrypt($cookie);
+						: $this->encrypter->decrypt($cookie, false);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class Guard implements HttpKernelInterface {
 
 		foreach ($cookie as $key => $value)
 		{
-			$decrypted[$key] = $this->encrypter->decrypt($value);
+			$decrypted[$key] = $this->encrypter->decrypt($value, false);
 		}
 
 		return $decrypted;
@@ -115,7 +115,7 @@ class Guard implements HttpKernelInterface {
 	{
 		foreach ($response->headers->getCookies() as $key => $c)
 		{
-			$encrypted = $this->encrypter->encrypt($c->getValue());
+			$encrypted = $this->encrypter->encrypt($c->getValue(), false);
 
 			$response->headers->setCookie($this->duplicate($c, $encrypted));
 		}

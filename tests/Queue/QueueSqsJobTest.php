@@ -3,8 +3,8 @@
 use Mockery as m;
 use Aws\Sqs\SqsClient;
 use Guzzle\Common\Collection;
-use Aws\Common\Signature\SignatureV4;
-use Aws\Common\Credentials\Credentials;
+use Aws\Signature\SignatureV4;
+use Aws\Credentials\Credentials;
 
 class QueueSqsJobTest extends PHPUnit\Framework\TestCase {
 
@@ -20,14 +20,21 @@ class QueueSqsJobTest extends PHPUnit\Framework\TestCase {
 
 		// The Aws\Common\AbstractClient needs these three constructor parameters
 		$this->credentials = new Credentials( $this->key, $this->secret );
-		$this->signature = new SignatureV4( $this->service, $this->region );
-		$this->config = new Collection();
 
 		// This is how the modified getQueue builds the queueUrl
 		$this->queueUrl = $this->baseUrl . '/' . $this->account . '/' . $this->queueName;
 
 		// Get a mock of the SqsClient
-		$this->mockedSqsClient = $this->getMockBuilder('Aws\Sqs\SqsClient')->setMethods(array('deleteMessage'))->setConstructorArgs(array($this->credentials, $this->signature, $this->config))->getMock();
+		$this->mockedSqsClient = $this->getMockBuilder('Aws\Sqs\SqsClient')
+            ->setMethods(array('deleteMessage'))
+            ->setConstructorArgs([
+                [
+                    'credentials' => $this->credentials,
+                    'region' => $this->region,
+                    'service' => $this->service ,
+                    "version" => "2012-11-05"
+                ]
+            ])->getMock();
 
 		// Use Mockery to mock the IoC Container
 		$this->mockedContainer = m::mock('Illuminate\Container\Container');
@@ -64,7 +71,6 @@ class QueueSqsJobTest extends PHPUnit\Framework\TestCase {
 
 	public function testDeleteRemovesTheJobFromSqs()
 	{
-		$this->mockedSqsClient = $this->getMockBuilder('Aws\Sqs\SqsClient')->setMethods(array('deleteMessage'))->setConstructorArgs(array($this->credentials, $this->signature, $this->config))->getMock();
 		$queue = $this->getMockBuilder('Illuminate\Queue\SqsQueue')->setMethods(array('getQueue'))->setConstructorArgs(array($this->mockedSqsClient, $this->queueName, $this->account))->getMock();
 		$queue->setContainer($this->mockedContainer);
 		$job = $this->getJob();

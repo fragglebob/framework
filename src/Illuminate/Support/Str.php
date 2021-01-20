@@ -1,6 +1,6 @@
 <?php namespace Illuminate\Support;
 
-use Patchwork\Utf8;
+use voku\helper\ASCII;
 use Illuminate\Support\Traits\MacroableTrait;
 
 class Str {
@@ -34,9 +34,9 @@ class Str {
 	 * @param  string  $value
 	 * @return string
 	 */
-	public static function ascii($value)
+	public static function ascii($value, $language = 'en')
 	{
-		return Utf8::toAscii($value);
+        return ASCII::to_ascii((string) $value, $language);
 	}
 
 	/**

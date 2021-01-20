@@ -53,10 +53,17 @@ class EloquentUserProvider implements UserProviderInterface {
 	{
 		$model = $this->createModel();
 
-		return $model->newQuery()
-                        ->where($model->getKeyName(), $identifier)
-                        ->where($model->getRememberTokenName(), $token)
-                        ->first();
+		$user = $model->newQuery()
+            ->where($model->getAuthIdentifierName(), $identifier)
+            ->first();
+
+		if (!$user) {
+		    return;
+        }
+
+		$rememberToken = $user->getRememberToken();
+
+        return $rememberToken && hash_equals($rememberToken, $token) ? $user : null;
 	}
 
 	/**
