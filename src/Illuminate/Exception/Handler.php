@@ -6,6 +6,7 @@ namespace Illuminate\Exception;
 
 use Closure;
 use ErrorException;
+use Illuminate\Support\Reflector;
 use ReflectionFunction;
 use Illuminate\Support\Contracts\ResponsePreparerInterface;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -142,7 +143,7 @@ class Handler {
     /**
      * Handle an exception for the application.
      *
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handleException($exception)
@@ -210,7 +211,7 @@ class Handler {
     /**
      * Handle a console exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return void
      */
     public function handleConsole($exception)
@@ -221,7 +222,7 @@ class Handler {
     /**
      * Handle the given exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @param  bool  $fromConsole
      * @return void
      */
@@ -278,7 +279,7 @@ class Handler {
     /**
      * Display the given exception to the user.
      *
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return void
      */
     protected function displayException($exception)
@@ -292,7 +293,7 @@ class Handler {
      * Determine if the given handler handles this exception.
      *
      * @param  \Closure    $handler
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return bool
      */
     protected function handlesException(Closure $handler, $exception)
@@ -306,7 +307,7 @@ class Handler {
      * Determine if the given handler type hints the exception.
      *
      * @param  \ReflectionFunction  $reflection
-     * @param  \Exception  $exception
+     * @param  \Throwable  $exception
      * @return bool
      */
     protected function hints(ReflectionFunction $reflection, $exception)
@@ -315,13 +316,15 @@ class Handler {
 
         $expected = $parameters[0];
 
-        return ! $expected->getClass() || $expected->getClass()->isInstance($exception);
+        $className = Reflector::getParameterClassName($expected);
+
+        return $className && is_a($exception, $className);
     }
 
     /**
      * Format an exception thrown by a handler.
      *
-     * @param  \Exception  $e
+     * @param  \Throwable  $e
      * @return string
      */
     protected function formatException($e)

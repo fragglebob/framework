@@ -2,6 +2,7 @@
 
 use Closure;
 use ArrayAccess;
+use Illuminate\Support\Reflector;
 use ReflectionClass;
 use ReflectionParameter;
 
@@ -552,23 +553,16 @@ class Container implements ArrayAccess {
 
 		foreach ($parameters as $parameter)
 		{
-			$dependency = $parameter->getType();
-
-			// If the class is null, it means the dependency is a string or some other
-			// primitive type which we can not resolve since it is not a class and
-			// we will just bomb out with an error since we have no-where to go.
-			if (array_key_exists($parameter->getName(), $primitives))
-			{
-				$dependencies[] = $primitives[$parameter->getName()];
-			}
-			elseif (is_null($dependency) || $dependency->isBuiltin())
-			{
-				$dependencies[] = $this->resolveNonClass($parameter);
-			}
-			else
-			{
-				$dependencies[] = $this->resolveClass($parameter);
-			}
+            if (array_key_exists($parameter->getName(), $primitives))
+            {
+                $dependencies[] = $primitives[$parameter->getName()];
+            }
+            elseif (Reflector::getParameterClassName($parameter))
+            {
+                $dependencies[] = $this->resolveClass($parameter);
+            } else {
+                $dependencies[] = $this->resolveNonClass($parameter);
+            }
 		}
 
 		return (array) $dependencies;
