@@ -2736,7 +2736,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
 	 *
 	 * @param  string  $key
 	 * @param  mixed   $default
-	 * @return array
+	 * @return mixed
 	 */
 	public function getOriginal($key = null, $default = null)
 	{

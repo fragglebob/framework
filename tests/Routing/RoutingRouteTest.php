@@ -226,6 +226,9 @@ class RoutingRouteTest extends PHPUnit\Framework\TestCase {
 		$this->assertTrue($router->currentRouteUses('RouteTestControllerDispatchStub@bar'));
 		$this->assertTrue($router->uses('RouteTestControllerDispatchStub@bar'));
 		$this->assertFalse($router->uses('RouteTestControllerDispatchStub@baz'));
+
+        $router->get('anything/{anything}/{something}', 'RouteTestControllerDispatchStub@anything');
+        $this->assertEquals('anythinghello', $router->dispatch(Request::create('anything/hello/world', 'GET'))->getContent());
 	}
 
 
@@ -866,6 +869,10 @@ class RouteTestControllerDispatchStub extends Illuminate\Routing\Controller {
 	{
 		return 'qux';
 	}
+    public function anything($anything)
+    {
+        return 'anything' . $anything;
+    }
 }
 
 class RouteTestControllerRemoveFilterStub extends \Illuminate\Routing\Controller {
